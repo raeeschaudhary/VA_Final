@@ -18,7 +18,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG])
 server=app.server
 
 mc1_data = pd.read_csv('mc1-reports-data.csv')
-mc1_data['timestamp'] = pd.to_datetime(mc1_data['time'], format='%Y-%m-%d %H:%M:%S')
+df_hourly = pd.read_csv('df_hourly.csv')
 
 def make_empty_fig():
     fig = go.Figure()
@@ -348,8 +348,6 @@ def display_main(diff, ques):
                 ])
             )
         )
-
-    df_hourly = mc1_data.groupby(mc1_data['timestamp'].dt.strftime('%Y-%m-%d %H')).mean().reset_index()
     
     fig3 = go.Figure()
     fig3.add_trace(go.Scatter(x=df_hourly['timestamp'], y=df_hourly['sewer_and_water'], name='Sewer and Water'))
