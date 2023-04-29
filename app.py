@@ -22,6 +22,9 @@ mc1_data = pd.read_csv('mc1-reports-data.csv')
 df_hourly = pd.read_csv('df_hourly.csv')
 df_hourly_avg = pd.read_csv('hourly_avg.csv')
 
+tweets = pd.read_csv("tweets.csv")
+result = pd.read_csv('tweets_time.csv')
+
 locations_dict = {
      "ALL": "St. Himark", "1": "Palace Hills", "2": "Northwest", "3": "Old Town", "4": "Safe Town", "5": "Southwest", "6": "Downtown", "7": "Wilson Forest", "8": "Scenic Vista", "9": "Broadview", 
      "10": "Chapparal", "11": "Terrapin Springs", "12": "Pepper Mill", "13": "Cheddarford", "14": "Easton", "15": "Weston", "16": "Southton", "17": "Oak Willow", "18": "East Parton",  "19": "West Parton" }
@@ -288,8 +291,7 @@ def update_city_details(click_data):
               )
 def display_dist(click_data):
     location = 'ALL'
-    tweets = pd.read_csv("tweets.csv")
-    result = pd.read_csv('tweets_time.csv')
+    
     fig1 = px.scatter(tweets, x="time", y="location", color='location', hover_name="account", height=600, hover_data=['time', 'message'])
     
     if click_data is not None:
