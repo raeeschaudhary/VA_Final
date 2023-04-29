@@ -49,7 +49,7 @@ main_layout = html.Div([
         dbc.NavItem(dbc.NavLink("Shake Sense", href="sen")),
         dbc.NavItem(dbc.NavLink("Social", href="soc")),
     ],
-    brand="Disaster at St. Himark!",
+    brand="HimarkDash - Dashboad",
     brand_href="/",
     color="primary",
     dark=True,
