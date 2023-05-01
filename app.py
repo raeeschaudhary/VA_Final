@@ -108,8 +108,15 @@ sen_dashboard = html.Div([
             html.Br(),
             dbc.Label('Select Variable to Visualize Data Uncertainity', style={"color": "black"},),
             dcc.Dropdown(id='diff3_dropdown', 
-                         value='shake_intensity', options=[{'label': v, 'value': v}
-                                  for v in ['shake_intensity', 'sewer_and_water', 'power', 'roads_and_bridges', 'medical', 'buildings']]  ),
+                         value='shake_intensity', 
+                         options=[
+                                {'label': 'Shake Intensity', 'value': 'shake_intensity'},
+                                {'label': 'Sewer and Water', 'value': 'sewer_and_water'},
+                                {'label': 'Power (Electricity)', 'value': 'power'},
+                                {'label': 'Roads and Bridges', 'value': 'roads_and_bridges'},
+                                {'label': 'Medical (Hospitals)', 'value': 'medical'},
+                                {'label': 'Buildings', 'value': 'buildings'},
+                            ],),
             dcc.Graph(id='heatmap_graph',
                            figure=make_empty_fig()),
             html.Br(),
