@@ -43,7 +43,7 @@ main_layout = html.Div([
     html.Div([
     dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Shake Sense", href="sen")),
+        dbc.NavItem(dbc.NavLink("Uncertainity", href="sen")),
         dbc.NavItem(dbc.NavLink("Social", href="soc")),
     ],
     brand="HimarkDash - Dashboad",
@@ -64,8 +64,9 @@ main_dashboard = html.Div([
         dbc.Row([
             dbc.Col(lg=1),
             dbc.Col([
+                html.Br(),
                 html.Div(
-                    id='city-name',
+                    id='city-name', style={"color": "black"},
                     children='No city selected'
                     ),
                     #dbc.Label('Select City'),
@@ -104,11 +105,19 @@ sen_dashboard = html.Div([
     dbc.Row([
         dbc.Col(lg=1),
         dbc.Col([
-            dcc.Dropdown(id='diff3_dropdown',  style={ 'display': 'none' },
-                         value='s1', options=[{'label': v, 'value': v}
-                                  for v in ['s1', 's2']]  ),
+            html.Br(),
+            dbc.Label('Select Variable to Visualize Data Uncertainity', style={"color": "black"},),
+            dcc.Dropdown(id='diff3_dropdown', 
+                         value='shake_intensity', options=[{'label': v, 'value': v}
+                                  for v in ['shake_intensity', 'sewer_and_water', 'power', 'roads_and_bridges', 'medical', 'buildings']]  ),
             dcc.Graph(id='heatmap_graph',
                            figure=make_empty_fig()),
+            html.Br(),
+            html.Div(
+                    id='cities',
+                    children='No city selected',
+                    style={"color": "black",}
+                    ),
              ], md=12, lg=10),
             
     ]),
@@ -119,8 +128,9 @@ soc_dashboard = html.Div([
     dbc.Row([
             dbc.Col(lg=1),
             dbc.Col([
+                html.Br(),
                 html.Div(
-                    id='city-name1',
+                    id='city-name1', style={"color": "black"},
                     children='No city selected'
                     ),
                     #dbc.Label('Select City'),
@@ -320,22 +330,15 @@ def display_dist(click_data):
 
 #This method plots the main figures with input from user
 @app.callback(Output('heatmap_graph', 'figure'),
+              Output('cities', 'children'),
                Input('diff3_dropdown', 'value'),
               )
-def display_scores_box(ethnicity):
+def display_scores_box(variable):
     fig2 = go.Figure(data=go.Heatmap(
-        z=mc1_data['shake_intensity'],
-        x=pd.to_datetime(mc1_data['time']),
-        y=mc1_data['location'],
-        hovertemplate=
-        "<b>%{y}</b><br><br>" +
-        "Shake Intesity: %{z:,.1f}<br>" +
-        "Time: %{x}<br>",
-        colorscale='Viridis'))
+        z=mc1_data[variable], x=pd.to_datetime(mc1_data['time']), y=mc1_data['location'],
+        hovertemplate="<b>%{y}</b><br><br>" + variable + ": %{z:,.1f}<br>" + "Time: %{x}<br>", colorscale='Viridis'))
 
-    fig2.update_layout(
-        title='Shake Intensity ', height=800,
-        xaxis_title="Date")
+    fig2.update_layout(title=variable + " Data Uncertainity", height=800, xaxis_title="Date")
 
     fig2.update_xaxes(
         rangeslider_visible=True,
@@ -348,7 +351,7 @@ def display_scores_box(ethnicity):
                 ])
             )
         )    
-    return fig2
+    return fig2, f"Location: {locations_dict}"
 
     
 if __name__ == '__main__':
